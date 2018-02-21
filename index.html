@@ -9,10 +9,13 @@
   <script src="node_modules/react/dist/react.js"></script>
   <script src="node_modules/react-dom/dist/react-dom.js"></script>
   <script>
-    const MyTitle = function () {
+    const ce = React.createElement
+
+    const MyTitle = function (props) {
       return (
-        React.createElement(`div`, null,
-          React.createElement(`h1`, null, `My second component`)
+        ce(`div`, null,
+          //props used to pass things into components - html attributes in middle, content at end
+          ce(`h1`, { style: {color: props.color} }, props.title)
         )
       )
     }
@@ -21,18 +24,18 @@
     const MyFirstComponent = function () {
       //createElement creates an HTML element
       // Middle parameter can be used to pass in id
-      return React.createElement(`div`, { id: `my-first-component` },
+      return ce(`div`, { id: `my-first-component` },
       //You can pass arrays of components - important later!
-      [React.createElement(MyTitle),
-      React.createElement(MyTitle),
-      React.createElement(MyTitle),
-      React.createElement(MyTitle)]
+      [ce(MyTitle, { title: 'Mad Men', color: 'YellowGreen'}),
+      //Here title hooks into props.title and color goes into the style attribute
+      ce(MyTitle, { title: 'Game of Thrones', color: 'GreenYellow'}),
+      ce(MyTitle, { title: 'King of the Hill', color: 'LimeGreen'}),
+      ce(MyTitle, { title: 'Futurama', color: 'Lime'})]
       )
     }
-
     ReactDOM.render(
       //We can use createElement on components/classes we've made to render them
-      React.createElement(MyFirstComponent),
+      ce(MyFirstComponent),
       document.getElementById(`app`)
     )
   </script>
