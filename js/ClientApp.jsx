@@ -1,18 +1,19 @@
-const ce = React.createElement;
+// Same as const React = require('react')
+// Have to import React library even if using JSX because of Babel transpiling.
+import React from "react";
+import { render } from "react-dom";
+import { HashRouter, Route } from "react-router-dom";
+import Landing from "./Landing";
 
-const MyTitle = function(props) {
-  return ce('div', null, ce('h1', { style: { color: props.color } }, props.title));
-};
+// Use className rather than class for class names in tags - JSX gotcha.
+// No return statement due to arrow function implicit return linting.
+// If anything is outside of the return statement in component - use {} and return.
+const App = () => (
+  <HashRouter>
+    <div className="app">
+      <Route exact path="/" component={Landing} />
+    </div>
+  </HashRouter>
+);
 
-const MyFirstComponent = function() {
-  return ce(
-    'div',
-    { id: 'my-first-component' },
-    ce(MyTitle, { title: 'Game of Thrones', color: 'YellowGreen' }),
-    ce(MyTitle, { title: 'Stranger Things', color: 'GreenYellow' }),
-    ce(MyTitle, { title: 'Rick and Morty', color: 'LimeGreen' }),
-    ce(MyTitle, { title: 'Silicon Valley', color: 'peru' })
-  );
-};
-
-ReactDOM.render(ce(MyFirstComponent), document.getElementById('app'));
+render(<App />, document.getElementById("app"));
